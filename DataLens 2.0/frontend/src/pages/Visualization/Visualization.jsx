@@ -59,7 +59,7 @@ export default function Visualization() {
     if (y) p.set("y", y);
     if (z) p.set("z", z);
     p.set("_t", String(cacheBust));
-    return `/api/visualization/plot?${p.toString()}`;
+    return `${import.meta.env.VITE_API_URL}/api/visualization/plot?${p.toString()}`;
   }, [id, type, x, y, z, cacheBust]);
 
   useEffect(() => { setCacheBust(Date.now()); setPlotError(false); }, [id, type, x, y, z]);

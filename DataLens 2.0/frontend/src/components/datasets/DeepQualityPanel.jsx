@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import apiClient from "../../services/api/client.js";
 import { AlertTriangle, BarChart3, CheckCircle2, Database, Rows3, Sparkles } from "lucide-react";
 
 const fmt = (v) => v === null || v === undefined ? "—" : typeof v === "number" ? v.toLocaleString(undefined, { maximumFractionDigits: 4 }) : String(v);
@@ -20,7 +21,7 @@ function Plot({ datasetId, type, column, title, description }) {
     <h3 className="font-semibold">{title}</h3><p className="mt-1 text-xs text-neutral-500">{description}</p>
     <div className="mt-4 flex min-h-[260px] items-center justify-center overflow-auto rounded-xl bg-neutral-50 p-2 dark:bg-neutral-950">
       {failed ? <div className="p-8 text-center text-sm text-red-600">This plot could not be rendered. The dataset profile is still available above.</div>
-        : <img className="mx-auto max-h-[520px] max-w-full object-contain" src={`/api/datasets/${datasetId}/plot?${params.toString()}`} alt={title} onError={() => setFailed(true)}/>}
+        : <img className="mx-auto max-h-[520px] max-w-full object-contain" src={`${import.meta.env.VITE_API_URL}/api/datasets/${datasetId}/plot?${params.toString()}`}alt={title} onError={() => setFailed(true)}/>}
     </div>
   </div>;
 }
@@ -60,7 +61,7 @@ export default function DeepQualityPanel({ profile, datasetId }) {
     if (showProblems) { setShowProblems(false); return; }
     setProblemLoading(true);
     try {
-      const response = await fetch(`/api/datasets/${datasetId}/problem-rows?limit=100`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/datasets/${datasetId}/problem-rows?limit=100`)
       const json = await response.json();
       setProblemRows(json.rows || []);
       setShowProblems(true);

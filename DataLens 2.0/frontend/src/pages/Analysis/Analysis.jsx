@@ -38,7 +38,7 @@ export default function Analysis(){
    if(mode==="bivariate"){p.set("chart_type",biChart);p.set("x",x||"");p.set("y",y||"");}
    if(mode==="multivariate"){p.set("chart_type","scatter3d");p.set("x",x||"");p.set("y",y||"");p.set("z",z||"");}
    p.set("_t",String(cache));
-   return `/api/visualization/plot?${p.toString()}`;
+   return `${import.meta.env.VITE_API_URL}/api/visualization/plot?${p.toString()}`;
  },[id,mode,uniChart,biChart,column,x,y,z,cache]);
 
  return <main className="page">
